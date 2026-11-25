@@ -112,7 +112,22 @@ private fun DisposicionHorizontal(receta: Receta, modifier: Modifier = Modifier)
         modifier = modifier.fillMaxSize().padding(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-// (2) tomar de ejemplo DisposicionVertical Foto 40% y ContenidoReceta 60% }
+        // Foto a la izquierda: 40% del ancho, ocupa todo el alto disponible
+        BloqueFoto(
+            receta = receta,
+            modifier = Modifier
+                .weight(0.4f)
+                .fillMaxHeight()
+        )
+        // Contenido a la derecha: 60% del ancho, con scroll propio
+        Column(
+            modifier = Modifier
+                .weight(0.6f)
+                .fillMaxHeight()
+                .verticalScroll(rememberScrollState())
+        ) {
+            ContenidoReceta(receta = receta)
+        }
     }
 }
 

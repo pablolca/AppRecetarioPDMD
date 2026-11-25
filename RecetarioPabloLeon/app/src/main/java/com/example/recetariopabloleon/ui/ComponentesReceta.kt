@@ -84,7 +84,32 @@ fun BloqueIngredientes(
     ingredientes: List<String>,
     modifier: Modifier = Modifier
 ) {
-// (1) hacer de forma autónoma como la imagen
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.titulo_ingredientes),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        ingredientes.forEach { ingrediente ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = Icons.Filled.Check,
+                    contentDescription = null, // decorativo: el texto ya describe el ingrediente
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(16.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = ingrediente,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        }
+    }
 }
 
 
@@ -93,7 +118,42 @@ fun BloquePasos(
     pasos: List<String>,
     modifier: Modifier = Modifier
 ) {
-// (1) hacer de forma autónoma como la imagen
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.titulo_elaboracion),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        pasos.forEachIndexed { indice, paso ->
+            Row(verticalAlignment = Alignment.Top) {
+                // Número del paso dentro de un círculo
+                Box(
+                    modifier = Modifier.size(24.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Surface(
+                        shape = CircleShape,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.fillMaxSize()
+                    ) {}
+                    Text(
+                        text = (indice + 1).toString(),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
+                Spacer(modifier = Modifier.width(12.dp))
+                Text(
+                    text = paso,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+    }
 }
 
 @Composable
