@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">RecetarioPabloLeon</string>
+    <string name="titulo_lista">Recetas tradicionales</string>
+    <string name="volver">Volver</string>
+    <string name="ver_receta_completa">Ver receta completa</string>
+    <string name="titulo_ingredientes">Ingredientes</string>
+    <string name="titulo_elaboracion">Elaboración</string>
+    <string name="resumen_receta">%1$d min | %2$s | %3$s</string>
+    <string name="resumen_corto">%1$d min | %2$s</string>
+    <string name="comarca_formato">Comarca: %1$s</string>
+    <string name="cd_foto_receta">Fotografía de %1$s</string>
+    <string name="receta_no_encontrada">No se ha encontrado la receta solicitada.</string>
+    <string name="dificultad_facil">Fácil</string>
+    <string name="dificultad_media">Media</string>
+    <string name="dificultad_alta">Alta</string>
+</resources>
