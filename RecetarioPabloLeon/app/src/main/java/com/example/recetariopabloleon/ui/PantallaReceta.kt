@@ -22,10 +22,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -43,7 +46,12 @@ fun ListaRecetasScreen(
     val recetas by viewModel.recetas.collectAsStateWithLifecycle()
     val expandidaId by viewModel.expandidaId.collectAsStateWithLifecycle()
     Scaffold(
-        topBar = { TopAppBar(title = { Text(stringResource(R.string.titulo_lista)) }) }
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.titulo_lista)) },
+                actions = { BotonIdioma(onClick = viewModel::alternarIdioma) }
+            )
+        }
     ) { padding ->
         LazyColumn(
             modifier = modifier.fillMaxSize().padding(padding),
@@ -66,7 +74,8 @@ fun ListaRecetasScreen(
 fun FichaRecetaScreen(
     receta: Receta,
     onVolver: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCambiarIdioma: () -> Unit = {}
 ) {
 // Punto crítico de adaptabilidad: se decide la disposición según la orientación.
     val configuracion = LocalConfiguration.current
@@ -82,7 +91,8 @@ fun FichaRecetaScreen(
                             contentDescription = stringResource(R.string.volver)
                         )
                     }
-                }
+                },
+                actions = { BotonIdioma(onClick = onCambiarIdioma) }
             )
         }
     ) { padding ->
@@ -93,6 +103,19 @@ fun FichaRecetaScreen(
         }
     }
 }
+// Botón de la barra superior: muestra el idioma actual (ES / EN, sacado de los XML)
+// y cada pulsación rota al otro.
+@Composable
+private fun BotonIdioma(onClick: () -> Unit) {
+    val descripcion = stringResource(R.string.cd_cambiar_idioma)
+    TextButton(
+        onClick = onClick,
+        modifier = Modifier.semantics { contentDescription = descripcion }
+    ) {
+        Text(stringResource(R.string.boton_idioma))
+    }
+}
+
 @Composable
 private fun DisposicionVertical(receta: Receta, modifier: Modifier = Modifier) {
     Column(

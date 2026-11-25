@@ -1,5 +1,6 @@
 package com.example.recetariopabloleon
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,10 +9,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -22,6 +29,7 @@ import com.example.recetariopabloleon.ui.FichaRecetaScreen
 import com.example.recetariopabloleon.ui.ListaRecetasScreen
 import com.example.recetariopabloleon.ui.RecetasViewModel
 import com.example.recetariopabloleon.ui.theme.RecetarioPabloLeonTheme
+import java.util.Locale
 
 
 sealed class Screen(val route: String) {
@@ -39,6 +47,36 @@ fun AppNavigation(
 // el NavBackStackEntry y habría dos ViewModels distintos.
     viewModel: RecetasViewModel = viewModel()
 ) {
+    val idioma by viewModel.idioma.collectAsStateWithLifecycle()
+    // Todo lo que va dentro lee los strings.xml en el idioma elegido,
+    // sin importar el idioma del dispositivo.
+    ConIdioma(idioma = idioma) {
+        NavegacionRecetas(viewModel = viewModel)
+    }
+}
+
+// Sustituye el Context y la Configuration de Compose por unos con el idioma indicado.
+// Así stringResource() toma values/ (español) o values-en/ (inglés).
+@Composable
+fun ConIdioma(idioma: String, contenido: @Composable () -> Unit) {
+    val contextoBase = LocalContext.current
+    val configuracionBase = LocalConfiguration.current
+    val configuracion = remember(idioma, configuracionBase) {
+        Configuration(configuracionBase).apply { setLocale(Locale.forLanguageTag(idioma)) }
+    }
+    val contexto = remember(configuracion) {
+        contextoBase.createConfigurationContext(configuracion)
+    }
+    CompositionLocalProvider(
+        LocalContext provides contexto,
+        LocalConfiguration provides configuracion
+    ) {
+        contenido()
+    }
+}
+
+@Composable
+private fun NavegacionRecetas(viewModel: RecetasViewModel) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
@@ -60,7 +98,8 @@ fun AppNavigation(
             if (receta != null) {
                 FichaRecetaScreen(
                     receta = receta,
-                    onVolver = { navController.popBackStack() }
+                    onVolver = { navController.popBackStack() },
+                    onCambiarIdioma = viewModel::alternarIdioma
                 )
             } else {
                 Text(
@@ -77,12 +116,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             RecetarioPabloLeonTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                AppNavigation()
             }
         }
     }

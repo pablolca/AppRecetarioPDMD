@@ -13,4 +13,6 @@
     <string name="dificultad_facil">Fácil</string>
     <string name="dificultad_media">Media</string>
     <string name="dificultad_alta">Alta</string>
+    <string name="boton_idioma">ES</string>
+    <string name="cd_cambiar_idioma">Cambiar idioma</string>
 </resources>

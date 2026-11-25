@@ -18,4 +18,13 @@ class RecetasViewModel : ViewModel() {
         _expandidaId.value = if (_expandidaId.value == id) null else id
     }
     fun recetaConId(id: Int): Receta? = _recetas.value.firstOrNull { it.id == id }
+
+    // Idioma de los textos de los XML. Español de base; se guarda aquí para
+    // que sobreviva a la rotación de pantalla.
+    private val _idioma = MutableStateFlow("es")
+    val idioma: StateFlow<String> = _idioma.asStateFlow()
+    // Cada pulsación del botón rota entre español e inglés.
+    fun alternarIdioma() {
+        _idioma.value = if (_idioma.value == "es") "en" else "es"
+    }
 }
