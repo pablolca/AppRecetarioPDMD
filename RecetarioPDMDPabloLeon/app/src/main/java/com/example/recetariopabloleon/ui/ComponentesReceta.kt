@@ -234,7 +234,13 @@ fun TarjetaReceta(
 }
 
 @Preview(showBackground = true, name = "Claro")
-// (4) Definir de forma autonoma un preview en modo oscuro y otro en idioma Inglés
+// (4) Preview en modo oscuro y otro en idioma inglés
+@Preview(
+    showBackground = true,
+    name = "Oscuro",
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
+@Preview(showBackground = true, name = "Inglés", locale = "en")
 @Composable
 private fun TarjetaRecetaPreview() {
     RecetarioPabloLeonTheme {

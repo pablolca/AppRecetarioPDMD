@@ -1,12 +1,12 @@
-# AppRecetarioPDMD — Recetario Pablo León
+# AppRecetarioPDMD — RecetarioPDMDPabloLeon
 
 Aplicación Android hecha con **Kotlin + Jetpack Compose (Material 3)** que muestra un recetario de platos tradicionales manchegos. Tiene una lista de recetas con tarjetas animadas, una ficha de detalle que se adapta a la orientación del dispositivo y un botón para cambiar el idioma de la interfaz entre español e inglés.
 
-El proyecto Android está en la carpeta [`RecetarioPabloLeon/`](RecetarioPabloLeon).
+El proyecto Android está en la carpeta [`RecetarioPDMDPabloLeon/`](RecetarioPDMDPabloLeon).
 
 ## Cómo ejecutarla
 
-1. Abrir la carpeta `RecetarioPabloLeon` en Android Studio (*File → Open*).
+1. Abrir la carpeta `RecetarioPDMDPabloLeon` en Android Studio (*File → Open*).
 2. Esperar a que termine el *Gradle Sync*.
 3. Ejecutar la configuración `app` en un emulador o dispositivo (Android 7.0 / API 24 o superior).
 
@@ -20,7 +20,7 @@ El proyecto Android está en la carpeta [`RecetarioPabloLeon/`](RecetarioPabloLe
 ## Estructura del código
 
 ```
-RecetarioPabloLeon/app/src/main/
+RecetarioPDMDPabloLeon/app/src/main/
 ├── java/com/example/recetariopabloleon/
 │   ├── MainActivity.kt          → Activity, navegación y control del idioma
 │   ├── data/
@@ -28,7 +28,7 @@ RecetarioPabloLeon/app/src/main/
 │   │   └── RecetasData.kt       → lista de recetas iniciales
 │   └── ui/
 │       ├── RecetasViewModel.kt  → estado de la app (recetas, tarjeta expandida, idioma)
-│       ├── PantallaReceta.kt    → pantallas: lista y ficha (vertical / horizontal)
+│       ├── PantallasReceta.kt   → pantallas: lista y ficha (vertical / horizontal)
 │       ├── ComponentesReceta.kt → bloques reutilizables y tarjeta animada
 │       └── theme/               → colores, tipografía y tema Material 3
 └── res/
@@ -67,7 +67,7 @@ Como el estado está en el ViewModel, sobrevive a la rotación de pantalla.
 
 `ConIdioma(idioma) { … }` crea una copia de la `Configuration` actual con el `Locale` elegido y un `Context` a partir de ella, y los inyecta con `CompositionLocalProvider` (`LocalContext` y `LocalConfiguration`). Todo lo que hay dentro, al llamar a `stringResource()`, lee `values/` o `values-en/` según el idioma del ViewModel, sin cambiar el idioma del sistema ni reiniciar la Activity.
 
-### Pantallas (`PantallaReceta.kt`)
+### Pantallas (`PantallasReceta.kt`)
 
 - `ListaRecetasScreen`: `Scaffold` con `TopAppBar` (título + botón de idioma) y un `LazyColumn` de `TarjetaReceta`.
 - `FichaRecetaScreen`: `Scaffold` con `TopAppBar` (nombre, flecha de volver y botón de idioma). Mira `LocalConfiguration.current.orientation` y elige:
@@ -86,6 +86,7 @@ Como el estado está en el ViewModel, sobrevive a la rotación de pantalla.
   1. `animateColorAsState`: cambia el color de fondo al expandirse.
   2. `animateContentSize`: anima el cambio de altura.
   3. `AnimatedVisibility` (`expandVertically` / `shrinkVertically`): muestra u oculta la comarca y el botón *Ver receta completa*.
+- Previews de `TarjetaReceta` en tres configuraciones: claro, oscuro e inglés.
 
 ## Tecnologías
 
