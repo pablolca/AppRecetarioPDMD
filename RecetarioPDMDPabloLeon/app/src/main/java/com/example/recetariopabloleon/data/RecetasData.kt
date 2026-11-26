@@ -1,6 +1,16 @@
 package com.example.recetariopabloleon.data
 
 import com.example.recetariopabloleon.R
+
+// Datos con los que arranca la app (no hay base de datos ni internet: todo está aquí).
+// El ViewModel llama a esta función una sola vez al crearse y guarda la lista en su estado.
+// Cada Receta lleva:
+//  - un id único (1..10), que es lo que viaja en la navegación a la ficha,
+//  - textos en español (nombre, ingredientes, pasos, comarca): NO cambian con el botón ES/EN,
+//  - una Dificultad (esa sí se traduce, porque apunta a un string de los XML),
+//  - imagenId = la foto correspondiente en res/drawable (archivos .webp).
+// Para añadir una receta nueva basta con añadir otro Receta(...) a esta lista
+// con un id que no se repita y su foto en res/drawable.
 fun recetasIniciales(): List<Receta> = listOf(
     Receta(
         id = 1, nombre = "Migas ruleras", tiempoMinutos = 45,
